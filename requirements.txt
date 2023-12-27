@@ -3,3 +3,4 @@ dash_auth==2.0.0
 gunicorn
 pandas
 dash-tools
+yfinance
