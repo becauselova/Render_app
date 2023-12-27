@@ -77,7 +77,7 @@ def update_graph(n_clicks,stock_ticker, start_date, end_date):
     traces =[]
     for tic in stock_ticker:
         data = yf.download(tic, start, end)
-        traces.append({'x': data.index, 'y': data['Close'],git 'name':tic})
+        traces.append({'x': data.index, 'y': data['Close'],'name':tic})
     fig = {
         'data': traces,
         'layout':{'title': ', '.join(stock_ticker)+' Closing Prices'}
