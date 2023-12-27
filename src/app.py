@@ -13,8 +13,8 @@ app.layout = html.Div([
         dcc.RangeSlider(
             id='range-slider',
             min=-5,
-            max=6,
-            marks={i:str(i) for i in range(-5,7)},
+            max=20,
+            marks={i:str(i) for i in range(-5,20)},
             value=[-3,4]
         ),
         html.H1(id='product')
@@ -25,4 +25,4 @@ def update_value(value_list):
     return value_list[0]*value_list[1]
 
 if __name__=='__main__':
-    app.run(debug=False)
+    app.run(debug=False, port =8071)
