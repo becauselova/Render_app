@@ -15,7 +15,7 @@ dash_auth.BasicAuth(app, USERNAME_PASSWORD_PAIRS)
 server = app.server
 
 app.layout = html.Div([
-            html.H1('Stock Ticker Dashboard'),
+            html.H1('Инфопанели'),
             html.Div((html.H3('Enter a stock symbol:', style={'paddingRight': '30px'}),
                       dcc.Input(
                           id='my_stock_picker',
