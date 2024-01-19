@@ -16,13 +16,18 @@ server = app.server
 
 app.layout = html.Div([
             html.H1('Динамика тикера'),
-            html.Div((html.H3('Введите тикер:', style={'paddingRight': '30px'}),
-                      dcc.Input(
-                          id='my_stock_picker',
-                          value='TSLA',
-                          multiple=True,
-                          style={'fontSize': 15, 'width': 75}
-                      )), style={'display': 'grid', 'verticalAlign': 'top', 'color':'blue', 'marginLeft':'10px'}),
+            dcc.Graph(id='my_graph',
+                        figure={'data':[
+                            {'x': [1,2], 'y':[3,1]}
+                        ], 'layout':{'title':'Default title'}}
+                ),
+            html.Div((html.H3('Введите тикер:', style={'paddingRight': '30px',  'padding-top': '0'}),
+              dcc.Input(
+                  id='my_stock_picker',
+                  value='TSLA',
+                  multiple=True,
+                  style={'fontSize': 15, 'width': 75}
+              )), style={'display': 'grid', 'verticalAlign': 'top', 'color': 'blue', 'marginLeft': '10px'}),
             html.Div([html.H3('Выберите период:'),
                       dcc.DatePickerRange(id='my_date_picker',
                                           min_date_allowed='2015-1-1',
@@ -38,13 +43,8 @@ app.layout = html.Div([
                                 children='Submit',
                                 style={'fontSize': 15,'marginLeft':'10px', 'color':'white', 'color-scheme': 'dark',
                                        'margin-bottom':'50px'})
-            ]),
-            dcc.Graph(id='my_graph',
-                        figure={'data':[
-                            {'x': [1,2], 'y':[3,1]}
-                        ], 'layout':{'title':'Default title'}}
-                )
             ])
+])
 
 @app.callback(Output('my_graph', 'figure'),
                Input('submit-button', 'n_clicks'),
