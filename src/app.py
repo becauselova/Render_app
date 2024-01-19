@@ -1,9 +1,12 @@
 from dash import Dash, dcc, html
-from dash.dependencies import Output, Input, State
+from dash.dependencies import Output, Input, State, dash_auth
 # https://www.tiingo.com/
 #https://github.com/ranaroussi/yfinance
 import yfinance as yf
 from datetime import datetime
+
+USERNAME_PASSWORD_PAIRS=[['username', 'password'], ['623', '63']]
+dash_auth.BasicAuth(app, USERNAME_PASSWORD_PAIRS)
 
 app = Dash(__name__)
 server = app.server
@@ -56,4 +59,4 @@ def update_graph(n_clicks,stock_ticker, start_date, end_date):
     return fig
 
 if __name__ == '__main__':
- app.run(debug=False, port=8051)
+ app.run(debug=False)
