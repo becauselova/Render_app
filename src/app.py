@@ -23,15 +23,6 @@ app.layout = html.Div([
                   multiple=True,
                   style={'fontSize': 15, 'width': 75}
               )), style={'display': 'inline-block', 'verticalAlign': 'top', 'color': 'blue', 'marginLeft': '10px'}),
-            html.Div([html.H3('Выберите период:'),
-                      dcc.DatePickerRange(id='my_date_picker',
-                                          min_date_allowed='2015-1-1',
-                                          max_date_allowed =datetime.today(),
-                                          start_date='2020-1-1',
-                                          end_date=datetime.today()
-                                          )
-                      ], style={'width': '30%', 'color': 'green',
-                                'display':'inline-block', 'padding-bottom': '2%'}),
             html.Div([
                     html.Button(id='submit-button',
                                 n_clicks=0,
@@ -43,7 +34,16 @@ app.layout = html.Div([
                         figure={'data':[
                             {'x': [1,2], 'y':[3,1]}
                         ], 'layout':{'title':'Default title'}}
-                )
+                ),
+            html.Div([html.H3('Выберите период:'),
+                      dcc.DatePickerRange(id='my_date_picker',
+                                          min_date_allowed='2015-1-1',
+                                          max_date_allowed =datetime.today(),
+                                          start_date='2020-1-1',
+                                          end_date=datetime.today()
+                                          )
+                      ], style={'width': '50%', 'color': 'green',
+                                'display':'inline-block', 'padding-bottom': '2%'})
 ])
 
 @app.callback(Output('my_graph', 'figure'),
