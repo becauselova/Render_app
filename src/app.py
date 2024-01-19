@@ -8,9 +8,10 @@ import yfinance as yf
 from datetime import datetime
 
 USERNAME_PASSWORD_PAIRS=[['username', 'password'], ['623', '63']]
+app = Dash(__name__)
 dash_auth.BasicAuth(app, USERNAME_PASSWORD_PAIRS)
 
-app = Dash(__name__)
+
 server = app.server
 
 app.layout = html.Div([
