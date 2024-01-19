@@ -15,15 +15,15 @@ dash_auth.BasicAuth(app, USERNAME_PASSWORD_PAIRS)
 server = app.server
 
 app.layout = html.Div([
-            html.H1('Инфопанели'),
-            html.Div((html.H3('Enter a stock symbol:', style={'paddingRight': '30px'}),
+            html.H1('Динамика тикера'),
+            html.Div((html.H3('Введите тикер:', style={'paddingRight': '30px'}),
                       dcc.Input(
                           id='my_stock_picker',
                           value='TSLA',
                           multiple=True,
                           style={'fontSize': 24, 'width': 75}
                       )), style={'display': 'inline-block', 'verticalAlign': 'top'}),
-            html.Div([html.H3('Select a start and end date:'),
+            html.Div([html.H3('Выберите период:'),
                       dcc.DatePickerRange(id='my_date_picker',
                                           min_date_allowed='2015-1-1',
                                           max_date_allowed =datetime.today(),
