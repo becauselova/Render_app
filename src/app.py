@@ -30,7 +30,7 @@ app.layout = html.Div([
                                           start_date='2020-1-1',
                                           end_date=datetime.today()
                                           )
-                      ], style={'display':'inline-block'}),
+                      ], style={'display':'vertical-align'}),
             html.Div([
                     html.Button(id='submit-button',
                                 n_clicks=0,
