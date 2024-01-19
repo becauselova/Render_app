@@ -1,49 +1,23 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Output, Input, State
+# https://www.tiingo.com/
+#https://github.com/ranaroussi/yfinance
 import yfinance as yf
 from datetime import datetime
-import pandas as pd
-import dash_auth
 
-USERNAME_PASSWORD_PAIRS = [['623', '63']]
 app = Dash(__name__)
-auth = dash_auth.BasicAuth(app, USERNAME_PASSWORD_PAIRS)
-
 server = app.server
 
-nsdq = {"TTF": "TTF=F","WTI":"WTI","HH": "HH=F","Brent Oil": "BZ=F"}
-
-#Sorting the stocks alphabatically
-myKeys = list(nsdq.keys())
-myKeys.sort()
-nsdq = {i: nsdq[i] for i in myKeys}
-
-#pulling the stock data of chosen stocks and combining them in one dataframe
-def download_stocks(tickers):
-    df_comb=pd.DataFrame()
-    for ticker in tickers:
-        try:
-            stock = yf.Ticker(ticker)
-            df = stock.history(period="10y")
-            df["ticker"]=ticker
-            df_comb=pd.concat([df,df_comb], axis=0)
-
-        except:
-            pass
-    return df_comb
-
 app.layout = html.Div([
-            html.H1('Динамика ценовых индикаторов'),
-            html.Div([html.H3('Выбор тикеров:', style={'paddingRight':'30px'}),
-            dcc.Dropdown(
-                id='my_ticker_picker',
-                options=[{'label': key, 'value': value} for key, value in
-                              nsdq.items()],
-                value=['Urals'],
-                multi=True
-            )
-            ], style={'display':'inline-block', 'verticalAlign':'top','width':'40%'}),
-            html.Div([html.H3('Выберете даты:'),
+            html.H1('Stock Ticker Dashboard'),
+            html.Div((html.H3('Enter a stock symbol:', style={'paddingRight': '30px'}),
+                      dcc.Input(
+                          id='my_stock_picker',
+                          value='TSLA',
+                          multiple=True,
+                          style={'fontSize': 24, 'width': 75}
+                      )), style={'display': 'inline-block', 'verticalAlign': 'top'}),
+            html.Div([html.H3('Select a start and end date:'),
                       dcc.DatePickerRange(id='my_date_picker',
                                           min_date_allowed='2015-1-1',
                                           max_date_allowed =datetime.today(),
@@ -54,35 +28,32 @@ app.layout = html.Div([
             html.Div([
                     html.Button(id='submit-button',
                                 n_clicks=0,
-                                children='Show',
+                                children='Submit',
                                 style={'fontSize': 24,'marginLeft':'30px'})
-            ], style ={'display':'inline-block'}),
+            ]),
             dcc.Graph(id='my_graph',
                         figure={'data':[
                             {'x': [1,2], 'y':[3,1]}
-                        ]
-                    }
+                        ], 'layout':{'title':'Default title'}}
                 )
             ])
 
 @app.callback(Output('my_graph', 'figure'),
-               [Input('submit-button', 'n_clicks')],
-               [State('my_ticker_picker','value'),
+               Input('submit-button', 'n_clicks'),
+               State('my_stock_picker','value'),
                State('my_date_picker','start_date'),
-               State('my_date_picker', 'end_date')])
+               State('my_date_picker', 'end_date'))
 
 def update_graph(n_clicks,stock_ticker, start_date, end_date):
+
     start = datetime.strptime(start_date[:10],'%Y-%m-%d')
     end = datetime.strptime(end_date[:10],'%Y-%m-%d')
-    traces =[]
-    for tic in stock_ticker:
-        data = yf.download(tic, start, end)
-        traces.append({'x': data.index, 'y': data['Close'],'name':tic})
+    data = yf.download(stock_ticker, start, end)
     fig = {
-        'data': traces,
-        'layout':{'title': ', '.join(stock_ticker)+' Closing Prices'}
+        'data': [{'x': data.index, 'y': data['Close']}],
+        'layout':{'title': stock_ticker}
     }
     return fig
 
 if __name__ == '__main__':
- app.run(debug=True, port=8071)
+ app.run(debug=False, port=8051)
