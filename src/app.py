@@ -1,5 +1,7 @@
 from dash import Dash, dcc, html
-from dash.dependencies import Output, Input, State, dash_auth
+from dash.dependencies import Output, Input, State
+import dash_auth
+
 # https://www.tiingo.com/
 #https://github.com/ranaroussi/yfinance
 import yfinance as yf
