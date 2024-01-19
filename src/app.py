@@ -25,14 +25,16 @@ app.layout = html.Div([
               )), style={'display': 'inline-block', 'verticalAlign': 'top', 'color': 'blue', 'marginLeft': '10px'}),
             html.Div([html.H3('Выберите период:'),
                       dcc.DatePickerRange(id='my_date_picker',
+                                          initial_visible_month = datetime.today(),
                                           min_date_allowed='2015-1-1',
                                           max_date_allowed =datetime.today(),
                                           start_date='2020-1-1',
                                           end_date=datetime.today(),
                                           with_portal = True
                                           )
-                      ]), #style={'width': '50%', 'color': 'green',
-                                #'display':'inline-block', 'padding-bottom': '2%'}
+                      ], style={'width': '50%', 'color': 'green',
+                                'display':'inline-block', 'padding-bottom': '2%'}),
+    # https://community.plotly.com/t/dash-timepicker/6541
             html.Div([
                     html.Button(id='submit-button',
                                 n_clicks=0,
